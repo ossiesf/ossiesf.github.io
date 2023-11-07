@@ -24,3 +24,6 @@ gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 
 # For command line support to compose: https://github.com/jekyll/jekyll-compose
 gem 'jekyll-compose', group: [:jekyll_plugins]
+
+# Build with a Github hosted theme
+gem "jekyll-remote-theme"
