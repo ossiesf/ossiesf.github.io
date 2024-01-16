@@ -45,7 +45,7 @@ const allowedDomains = [
     'www.google-analytics.com',
   
 
-  'ossiesf.github.io',
+  'localhost:4000',
 
   
 

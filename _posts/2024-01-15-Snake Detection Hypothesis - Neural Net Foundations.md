@@ -4,8 +4,14 @@ date: 2024-01-15
 categories: [Machine Learning, Python, Neural Net, Computer Vision Model(s)]
 tags: [neural-net, sdh, computer-vision]     # TAG names should always be lowercase
 ---
+![A random photo I took that's pretty to look at](/assets/transamerica-ossie-finnegan.jpg)
+# Neural Net Foundations
+<hr style="height: 2px; background-color: lightgray; border: none;">
+---
 
-A study by [Nagoya University on the Snake Detection Hypothesis](https://en.nagoya-u.ac.jp/research/activities/news/2016/11/humans-proven-to-recognize-partially-obscured-snakes-more-easily-than-other-animals.html) suggests that human vision is tuned to more easily detect a potential danger, snakes. By obscuring images completely and taking incremented steps (5% correction to baseline), they were able to guage differences in how obscured an image could remain while being identified.
+## Background
+A study by [Nagoya University on the Snake Detection Hypothesis](https://en.nagoya-u.ac.jp/research/activities/news/2016/11/humans-proven-to-recognize-partially-obscured-snakes-more-easily-than-other-animals.html) suggests that human vision is tuned to more easily detect a potential danger, snakes. By obscuring images completely and taking incremented steps (5% correction to baseline), they were able to gauge differences in how obscured an image could remain while being identified.
+
 
 As I'm studying neural nets, I thought as an interesting project I could replicate the study using a computer vision (CV) model. Assuming the hypothesis is true and human vision is evolutionarily tuned to more readily detect snakes, then the correlation should not be seen when tested by a CV model. Assuming that is the result, this may suggest that features specific to snakes do not make them more easily recognizable. Snakes do have a distinctive body type when compared to most other animals, including the animals used in the study.
 
@@ -13,6 +19,7 @@ The study used snakes, birds, cats and fish. The dataset is not publicly availab
 
 This initial NN is based off of fastai's [imagenette](https://docs.fast.ai/tutorial.imagenette.html), which is designed to be small and capable for quick training and evaluation at the early stages of the development process. With only 10 classes, each distinct from each other, you can get a workable and performant model.
 
+Let's start with our imports, load our data and targets, and a few custom functions to keep things clean:
 
 ```python
 from fastai.vision.all import *
@@ -41,6 +48,8 @@ def get_lr(learn):
     print('Learning rate finder result: ', res)
     return res
 ```
+
+## Datablocks &amp; Batches
 <hr style="height: 2px; background-color: lightgray; border: none;">
 ---
 As part of the development process, it is encouraged to check that everything works in each step. Let's check a batch from our DataBlock:
@@ -61,6 +70,8 @@ dls.show_batch()
     
 ![png](/assets/output_3_0.png)
     
+Experimenting with different batch sizes, 64 is working well for the size of the dataset (700 - 900 images per category). There was some, but minimal drop in performance at smaller batch sizes of 32. Using a larger batch size can potentially increase performance by reducing training time, which is a high priority goal when producing your MVP.
+
 <hr style="height: 2px; background-color: lightgray; border: none;">
 ---
 
@@ -84,7 +95,8 @@ dls.valid_ds
 <hr style="height: 2px; background-color: lightgray; border: none;">
 ---
 
-With that in check, it's time to create our leaner. For the metrics, I've chosen accuracy, in addition to F1 Score which is a combination of 'precision' and 'recall'. The F1 score should give us an understanding of how accurately positive or true predictions were correct (precision), and of all the potential positive instances, how many were identified (recall) as single, balanced, metric. By setting the `average='micro'`, we will be able to see one score with each individual class weighed equally.
+## Learners, Metrics and Training
+With that in check, it's time to create our learner. For the metrics, I've chosen accuracy, in addition to F1 Score which is a combination of 'precision' and 'recall'. The F1 score should give us an understanding of how accurately positive or true predictions were correct (precision), and of all the potential positive instances, how many were identified (recall) as single, balanced, metric. By setting the `average='micro'`, we will be able to see one score with each individual class weighed equally.
 
 We won't be using a pre-trained model, as I'm looking to create a simple model with not too many features or attributes already trained into the network. The end goal is to compare the study with three to four CV models, with varying levels of training. Since this is the prototype and we want it quick to achieve a MVP, we can train on ResNet18. This is the smallest of the of the standard ResNet models, and should train the fastest. It should be easy to scale to a deeper network with more layers as the project progresses.
 
@@ -294,7 +306,12 @@ interp.plot_confusion_matrix(figsize=(10, 10))
 
 The accuracy on predicting birds isn't bad, but not quite matching the perfomance of the other targets.
 
-The Nagoya study used grayscale images, so converting the images and measuring performance again should give more insight into how well our model performs.
+<hr style="height: 2px; background-color: lightgray; border: none;">
+---
+
+## Matching the study's data
+
+Unfortunately, the data set used for the study is not publicly available. I wasn't able to gather specific examples of size, source or other methods of data collection and so I chose ImageNet as a standard data source. The discrepancy in performance between target categories may be due to data set size (it's on the lower end of our range), but it should be constructive to first bring our existing data closer to the study conditions. The Nagoya study used grayscale images, so converting the images and measuring performance again should give more insight into how well our model performs for our task.
 
 One simple change can convert our images to grayscale, using the Python Image Library (PIL) in our ImageBlock. 
 

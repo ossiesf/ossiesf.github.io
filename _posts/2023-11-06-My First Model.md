@@ -1,11 +1,11 @@
 ---
-title: Launch & Learn - My First Model
+title: Launch &amp; Learn - My First Model
 date: 2023-11-06
 categories: [Machine Learning, Python]
 tags: [random-forest, kaggle]     # TAG names should always be lowercase
 ---
 
-# Launch & Learn: My First Model
+# Launch And Learn - My First Model
 ![Courtesy of Bing AI](/assets/my first model.jpg)
 ## Launch
 After months of poking around Kaggle and looking into various machine learning models, or getting lost in documentation, I finally put together my first model and submission. What changed was simple: I realized worrying too much about perfection meant I never made any progress.
