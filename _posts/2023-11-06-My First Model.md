@@ -116,6 +116,6 @@ submission = pd.DataFrame({
 submission.to_csv('submission.csv', index=False)
 ```
 
-I hope my learning process is helpful for anyone looking to get started with a basic machine learning model.
+I hope my learning process is helpful for anyone looking to get started with a basic machine learning model!
 
 Happy Hacking!
